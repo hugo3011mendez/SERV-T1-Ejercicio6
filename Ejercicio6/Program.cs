@@ -8,59 +8,74 @@ namespace Ejercicio6
 {
     class Program
     {
-        static bool flag = false;
+        static bool paroDisplay = false;
+        static bool acabar = false;
         static readonly object l = new object();
         static int contadorComun = 0;
         static void sacarAleatorio()
         {
-            Random generador = new Random();
-            int num = generador.Next(1, 11); // Creo y defino una variable como el número aleatrorio entre 1 y 10
-
-            lock (l)
+            while (!acabar)
             {
-                Console.WriteLine(num);
-
-                if (num == 5 || num == 7)
+                lock (l)
                 {
-                    if () // Si es player1
+                    Random generador = new Random();
+                    int num = generador.Next(1, 11); // Creo y defino una variable como el número aleatrorio entre 1 y 10
+
+                    Console.WriteLine(num);
+
+                    if (num == 5 || num == 7)
                     {
-                        if (flag != true)
+                        if () // Si es player1
                         {
-                            contadorComun ++;
+                            if (paroDisplay != true)
+                            {
+                                contadorComun ++;
+                            }
+                            else
+                            {
+                                contadorComun += 5;
+                            }
+                            paroDisplay = true;
                         }
-                        else
+                        else if () // Si es player2
                         {
-                            contadorComun += 5;
-                        }
-                        flag = true;
+                            if (paroDisplay != false)
+                            {
+                                paroDisplay = false;
+
+                                contadorComun--;
+                            }
+                            else
+                            {
+                                contadorComun -= 5;
+                            }
+                        }  
                     }
-                    else if () // Si es player2
+
+                    if (contadorComun == 20)
                     {
-                        if (flag != false)
-                        {
-                            flag = false;
+                        Console.WriteLine("Ha ganado el jugador 1!");
+                        acabar = true;
+                    }
+                    else if (contadorComun == -20)
+                    {
+                        Console.WriteLine("Ha ganado el jugador 2!");
+                        acabar = true;
+                    }
 
-                            contadorComun--;
-                        }
-                        else
-                        {
-                            contadorComun -= 5;
-                        }
-                    }  
+                    Thread.Sleep(generador.Next(100, (100*num)-1));
                 }
-
-                Thread.Sleep(generador.Next(100, (100*num)-1));
             }
         }
 
         static void cambioCaracter()
         {
-            lock (l)
-            {
-                char[] caracteres = {'|', '/', '-', '\\'}; // Creo una matriz con los caracteres a mostrar
-                int cont = 0; // Y creo un contador para determinar qué caracter muestro
+            char[] caracteres = {'|', '/', '-', '\\'}; // Creo una matriz con los caracteres a mostrar
+            int cont = 0; // Y creo un contador para determinar qué caracter muestro
 
-                while (!flag)
+            while (!paroDisplay)
+            {
+                lock (l)
                 {
                     // Cambio de caracter cada 200ms
                     Thread.Sleep(200);
