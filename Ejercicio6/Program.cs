@@ -12,52 +12,62 @@ namespace Ejercicio6
         static bool acabar = false;
         static readonly object l = new object();
         static int contadorComun = 0;
+
+
         static void sacarAleatorio()
         {
             while (!acabar)
             {
                 lock (l)
                 {
-                    Random generador = new Random();
-                    int num = generador.Next(1, 11); // Creo y defino una variable como el número aleatrorio entre 1 y 10
-
-                    Console.WriteLine(num);
-
-                    if (num == 5 || num == 7)
+                    if (!acabar)
                     {
-                        if () // Si es player1
+                        Random generador = new Random();
+                        int num = generador.Next(1, 11); // Creo y defino una variable como el número aleatrorio entre 1 y 10
+
+                        Console.Write(num);
+
+                        if (num == 5 || num == 7)
                         {
-                            if (paroDisplay != true)
+                            if () // Si es player1
                             {
-                                contadorComun ++;
+                                if (paroDisplay != true)
+                                {
+                                    paroDisplay = true;
+
+                                    contadorComun ++;
+                                }
+                                else
+                                {
+                                    contadorComun += 5;
+                                }
+
+                                Console.Write("\t\t Contador : " + contadorComun);
                             }
-                            else
+                            else if () // Si es player2
                             {
-                                contadorComun += 5;
+                                if (paroDisplay != false)
+                                {
+                                    paroDisplay = false;
+
+                                    contadorComun--;
+                                }
+                                else
+                                {
+                                    contadorComun -= 5;
+                                }
+
+                                Console.Write("\t\t Contador : " + contadorComun);
                             }
-                            paroDisplay = true;
                         }
-                        else if () // Si es player2
+
+                        if (contadorComun >= 20 || contadorComun <= -20)
                         {
-                            if (paroDisplay != false)
-                            {
-                                paroDisplay = false;
+                            acabar = true;
+                        }
 
-                                contadorComun--;
-                            }
-                            else
-                            {
-                                contadorComun -= 5;
-                            }
-                        }  
+                        Thread.Sleep(generador.Next(100, (100*num)+1));
                     }
-
-                    if (contadorComun >= 20 || contadorComun <= -20)
-                    {
-                        acabar = true;
-                    }
-
-                    Thread.Sleep(generador.Next(100, (100*num)+1));
                 }
             }
         }
@@ -71,15 +81,18 @@ namespace Ejercicio6
             {
                 lock (l)
                 {
-                    // Cambio de caracter cada 200ms
-                    Thread.Sleep(200);
-                    Console.SetCursorPosition(30,1);
-                    Console.Write(caracteres[cont]);
-
-                    cont ++;
-                    if (cont >= caracteres.Length)
+                    if (!paroDisplay)
                     {
-                        cont = 0;
+                        // Cambio de caracter cada 200ms
+                        Thread.Sleep(200);
+                        Console.SetCursorPosition(30,1);
+                        Console.Write(caracteres[cont]);
+
+                        cont ++;
+                        if (cont >= caracteres.Length)
+                        {
+                            cont = 0;
+                        }
                     }
                 }
             }
