@@ -22,7 +22,7 @@ namespace Ejercicio6
 
                 if (num == 5 || num == 7)
                 {
-                    if ()
+                    if () // Si es player1
                     {
                         if (flag != true)
                         {
@@ -34,9 +34,18 @@ namespace Ejercicio6
                         }
                         flag = true;
                     }
-                    else if ()
+                    else if () // Si es player2
                     {
+                        if (flag != false)
+                        {
+                            flag = false;
 
+                            contadorComun--;
+                        }
+                        else
+                        {
+                            contadorComun -= 5;
+                        }
                     }  
                 }
 
@@ -46,28 +55,34 @@ namespace Ejercicio6
 
         static void cambioCaracter()
         {
-            char[] caracteres = {'|', '/', '-', '\\'}; // Creo una matriz con los caracteres a mostrar
-            int cont = 0; // Y creo un contador para determinar qué caracter muestro
-
-            while (!flag)
+            lock (l)
             {
-                Thread.Sleep(200); // Cambio de caracter cada 200ms
-                Console.SetCursorPosition(30,1);
-                Console.Write(caracteres[cont]);
+                char[] caracteres = {'|', '/', '-', '\\'}; // Creo una matriz con los caracteres a mostrar
+                int cont = 0; // Y creo un contador para determinar qué caracter muestro
 
-                cont ++;
-                if (cont >= caracteres.Length)
+                while (!flag)
                 {
-                    cont = 0;
+                    // Cambio de caracter cada 200ms
+                    Thread.Sleep(200);
+                    Console.SetCursorPosition(30,1);
+                    Console.Write(caracteres[cont]);
+
+                    cont ++;
+                    if (cont >= caracteres.Length)
+                    {
+                        cont = 0;
+                    }
                 }
-            }        
+            }
         }
 
         static void Main(string[] args)
         {
             Thread player1 = new Thread(sacarAleatorio);
             Thread player2= new Thread(sacarAleatorio);
-            Thread display;
+            Thread display = new Thread(cambioCaracter);
+
+            player1.Join();
         }
     }
 }
