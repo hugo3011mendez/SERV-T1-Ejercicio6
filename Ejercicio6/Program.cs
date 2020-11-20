@@ -52,18 +52,12 @@ namespace Ejercicio6
                         }  
                     }
 
-                    if (contadorComun == 20)
+                    if (contadorComun >= 20 || contadorComun <= -20)
                     {
-                        Console.WriteLine("Ha ganado el jugador 1!");
-                        acabar = true;
-                    }
-                    else if (contadorComun == -20)
-                    {
-                        Console.WriteLine("Ha ganado el jugador 2!");
                         acabar = true;
                     }
 
-                    Thread.Sleep(generador.Next(100, (100*num)-1));
+                    Thread.Sleep(generador.Next(100, (100*num)+1));
                 }
             }
         }
@@ -97,7 +91,20 @@ namespace Ejercicio6
             Thread player2= new Thread(sacarAleatorio);
             Thread display = new Thread(cambioCaracter);
 
+            player1.Start();
+            player2.Start();
+            display.Start();
+
             player1.Join();
+
+            if (contadorComun >= 20)
+            {
+                Console.WriteLine("Ha ganado el jugador 1!");
+            }
+            else if (contadorComun <= -20)
+            {
+                Console.WriteLine("Ha ganado el jugador 2!");
+            }
         }
     }
 }
