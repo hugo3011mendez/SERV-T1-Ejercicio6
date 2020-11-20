@@ -41,8 +41,6 @@ namespace Ejercicio6
                                 {
                                     contadorComun += 5;
                                 }
-
-                                Console.Write("\t\t Contador : " + contadorComun);
                             }
                             else if () // Si es player2
                             {
@@ -56,9 +54,9 @@ namespace Ejercicio6
                                 {
                                     contadorComun -= 5;
                                 }
-
-                                Console.Write("\t\t Contador : " + contadorComun);
                             }
+
+                            Console.Write("\t Contador : " + contadorComun + "\n");
                         }
 
                         if (contadorComun >= 20 || contadorComun <= -20)
